@@ -19,11 +19,11 @@ const web3Modal = new Web3Modal({
   cacheProvider: true, // optional
   providerOptions, // required
   theme: {
-    background: "#1d1d3c",
+    background: "#36235e",
     main: "white",
     secondary: "#f5f5f5",
-    border: "#e440f2",
-    hover: "rgba(241, 36, 255, 0.0)",
+    border: "#d63771",
+    hover: "rgba(241, 36, 255, 0.1)",
   },
 });
 

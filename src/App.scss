@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+img.membership {
+  border: solid 1px #fc5090;
+  border-style: solid !important;
+  margin-bottom: 15px;
+}
+
+h1,
+h2,
+h3 {
+  color: #fc5090;
+}
+
+.btn.btn-secondary {
+  background-color: #fc5090;
+  border-color: #fc5090;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #d63771;
+  }
+}
+
+.token {
+  margin-top: -5px;
+}
+
+.table td,
+.table th {
+  border-top: 1px solid #d63771 !important;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #d63771 !important;
+}

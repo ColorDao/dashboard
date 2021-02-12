@@ -1,21 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./App.scss";
-import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import { Main } from "./Main";
-import { Container } from "reactstrap";
+import Main from "./Main";
 import { useSigner } from "./hooks/useSigner";
 import { Web3ModalContext } from "./state/Web3ModalContext";
 import signerContext from "./state/SignerContext";
 import COLO from "./contracts/COLO.json";
+import { Container, Row, Col, Button } from "reactstrap";
+import Membership from "./contracts/Memberships.json";
+import POA from "./contracts/ProofOfAction.json";
 
 const App: React.FC = () => {
   const signer = useSigner();
   const web3Modal = useContext(Web3ModalContext);
   const [isLoading, setloading] = useState(true);
   const [invalidNetwork, setInvalidNetwork] = useState(false);
-  //   return <>asd</>;
-  // };
+  const [ColoContract, setColoContract] = useState<ethers.Contract>();
+  const [
+    MembershipContract,
+    setMembershipContract,
+  ] = useState<ethers.Contract>();
+  const [POAContract, setPOAContract] = useState<ethers.Contract>();
 
   const setContracts = (currentSigner: ethers.Signer) => {
     const currentCOLO = new ethers.Contract(
@@ -23,6 +28,17 @@ const App: React.FC = () => {
       COLO.abi,
       currentSigner
     );
+    setColoContract(currentCOLO);
+
+    const currentMembership = new ethers.Contract(
+      Membership.address,
+      Membership.abi,
+      currentSigner
+    );
+    setMembershipContract(currentMembership);
+
+    const currentPOA = new ethers.Contract(POA.address, POA.abi, currentSigner);
+    setPOAContract(currentPOA);
   };
 
   web3Modal.on("connect", async (networkProvider) => {
@@ -67,16 +83,47 @@ const App: React.FC = () => {
   }, [web3Modal]);
 
   if (isLoading) {
-    return <>Loading</>;
+    return (
+      <Container>
+        <Row>
+          <Col>
+            <h2>Loading</h2>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
 
   if (invalidNetwork) {
     return <>Invalid Network</>;
   }
 
+  if (!signer.signer) {
+    return (
+      <Container className="mt-4">
+        <Row>
+          <Col>
+            <Button
+              size="lg"
+              onClick={() => {
+                web3Modal.toggleModal();
+              }}
+            >
+              Sign In
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
   return (
     <signerContext.Provider value={signer}>
-      <Main></Main>
+      <Main
+        ColoContract={ColoContract}
+        MembershipContract={MembershipContract}
+        POAContract={POAContract}
+      ></Main>
     </signerContext.Provider>
   );
 };

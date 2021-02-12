@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "@types/react": "^17.0.1",
     "@types/react-dom": "^17.0.0",
+    "bootstrap": "^4.6.0",
     "ethers": "^5.0.30",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",
